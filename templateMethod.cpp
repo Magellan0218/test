@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 class Library
 {
@@ -9,7 +10,7 @@ class Library
             std::cout << "~Library" << std::endl;
         }
         
-    protected:
+    public:
         void run(void)
         {
             step1();
@@ -18,7 +19,8 @@ class Library
             step4();
             step5();
         }
-
+    
+    protected:
         void step1(void)
         {
             std::cout << "Library::step1" << std::endl;
