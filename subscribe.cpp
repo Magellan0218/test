@@ -16,11 +16,13 @@ class Subscribe
     public:
         void connect(Functor &&func)
         {
+            std::lock_guard<std::mutex> lock(mutex_);
             notifys_.emplace_back(std::forward<Functor>(func));
         }
 
-        void notify(Args &&...args)
+        void notify(Args &&...args) const
         {
+            std::lock_guard<std::mutex> lock(mutex_); 
             for(const auto &it : notifys_)
             {
                 it(std::forward<Args>(args)...);
@@ -28,6 +30,7 @@ class Subscribe
         }
 
     private:
+        mutable std::mutex mutex_;
         std::vector<Functor> notifys_;       
 };
 
